@@ -107,7 +107,6 @@ public class DoilyDrawingArea extends JPanel{
     public void clearDisplay() {
         this.lines.clear();
         repaint();
-        //TODO: This whole thing
     }
 
     public void undo() {
@@ -162,8 +161,8 @@ public class DoilyDrawingArea extends JPanel{
             }
         }
 
-        for (int i = 0; i < lines.size(); i++) {
-            lines.get(i).drawLine(g2d);
+        for (Line line1 : lines) {
+            line1.drawLine(g2d);
         }
 
         line.drawLine(g2d);

@@ -22,7 +22,7 @@ public class ControlPanel extends JPanel {
         JPanel penSizeHolder = new JPanel(new FlowLayout());
         JLabel penSizeText = new JLabel("Size: 3");
 
-        JSlider penSizeSlider = new JSlider(1,10); //TODO: Set a min and max for the pen size
+        JSlider penSizeSlider = new JSlider(1,10);
         penSizeSlider.addChangeListener(e -> {
             penSizeText.setText("Size: " + penSizeSlider.getValue());
             da.setBrushSize(penSizeSlider.getValue());
@@ -35,7 +35,7 @@ public class ControlPanel extends JPanel {
         //Sector selector
         JPanel sectorSelectorHolder = new JPanel(new FlowLayout());
         JLabel sectorNumberText = new JLabel("Sectors: 16");
-        JSlider sectorSlider = new JSlider(1,64); //TODO: Set an actual maximum
+        JSlider sectorSlider = new JSlider(1,64);
 
         sectorSlider.addChangeListener(e -> {
                 da.setSectors(sectorSlider.getValue());
@@ -85,8 +85,6 @@ public class ControlPanel extends JPanel {
             da.setPenColour(newColour);
         });
         buttonsHolder.add(colourChooserButton);
-
-        //TODO: Add a colour chooser (JColorChooser)
 
         this.add(buttonsHolder);
     }
