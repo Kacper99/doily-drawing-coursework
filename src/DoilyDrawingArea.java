@@ -34,6 +34,7 @@ public class DoilyDrawingArea extends JPanel{
 
     public void setPenColour(Color colour) {
         this.penColour = colour;
+        line.setBrushColour(colour);
     }
 
     public int getBrushSize() {

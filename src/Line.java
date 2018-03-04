@@ -13,6 +13,10 @@ public class Line {
         this.brushSize = brushSize;
     }
 
+    public void setBrushColour(Color brushColour) {
+        this.brushColour = brushColour;
+    }
+
     public void addPoint(Point p) {
         this.points.add(p);
     }
