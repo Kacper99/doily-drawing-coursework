@@ -9,6 +9,7 @@ public class Line {
     private int brushSize; //Storing brush size so when it's resized later it won't affect this line
     private Color brushColour;
 
+    //Setters are used for when values are changed after the new line is created so they apply for the current line, and not for the next one
     public void setBrushSize(int brushSize) {
         this.brushSize = brushSize;
     }
