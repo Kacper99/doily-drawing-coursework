@@ -80,8 +80,12 @@ public class ControlPanel extends JPanel {
 
         //Colour chooser
         JButton colourChooserButton = new JButton("Choose colour");
-
+        colourChooserButton.addActionListener(e -> {
+            Color newColour = JColorChooser.showDialog(this, "Choose Colour", null);
+            da.setPenColour(newColour);
+        });
         buttonsHolder.add(colourChooserButton);
+
         //TODO: Add a colour chooser (JColorChooser)
 
         this.add(buttonsHolder);
