@@ -12,11 +12,6 @@ public class Gallery extends JPanel {
         super();
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        /*
-        for (Integer i = 0; i < 12; i++) {
-            images.add(new JLabel(i.toString()));
-        }
-        */
 
         //Adding a delete button
         JButton deleteImageButton = new JButton("Delete image");

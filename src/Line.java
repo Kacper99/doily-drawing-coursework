@@ -6,11 +6,16 @@ public class Line {
 
     private ArrayList<Point> points;
     private DoilyDrawingArea da;
-
     private int brushSize; //Storing brush size so when it's resized later it won't affect this line
+    private Color brushColour;
 
+    //Setters are used for when values are changed after the new line is created so they apply for the current line, and not for the next one
     public void setBrushSize(int brushSize) {
         this.brushSize = brushSize;
+    }
+
+    public void setBrushColour(Color brushColour) {
+        this.brushColour = brushColour;
     }
 
     public void addPoint(Point p) {
@@ -21,12 +26,13 @@ public class Line {
         points = new ArrayList<>();
         this.da = da;
         this.brushSize = da.getBrushSize();
+        this.brushColour = da.getPenColour();
     }
 
     public void drawLine(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(da.getPenColour());
+        g2d.setColor(brushColour);
 
         for (int i = 0; i < da.getSectors(); i++) {
             g2d.setStroke(new BasicStroke(brushSize));
