@@ -63,23 +63,27 @@ public class ControlPanel extends JPanel {
         this.add(toggles);
 
         //Undo and redo buttons
-        JPanel undoRedoHolder = new JPanel(new GridLayout(1,2));
+        JPanel buttonsHolder = new JPanel(new GridLayout(2,2));
         JButton undoButton = new JButton("Undo");
         JButton redoButton = new JButton("Redo");
 
         undoButton.addActionListener(e -> da.undo());
         redoButton.addActionListener(e -> da.redo());
 
-        undoRedoHolder.add(undoButton);
-        undoRedoHolder.add(redoButton);
-        this.add(undoRedoHolder);
+        buttonsHolder.add(undoButton);
+        buttonsHolder.add(redoButton);
 
         //Save image
         JButton saveImageButton = new JButton("Save image");
         saveImageButton.addActionListener(e -> gallery.addImage(da.getImage()));
-        this.add(saveImageButton);
+        buttonsHolder.add(saveImageButton);
 
         //Colour chooser
+        JButton colourChooserButton = new JButton("Choose colour");
+
+        buttonsHolder.add(colourChooserButton);
         //TODO: Add a colour chooser (JColorChooser)
+
+        this.add(buttonsHolder);
     }
 }
