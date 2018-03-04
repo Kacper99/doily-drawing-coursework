@@ -129,7 +129,7 @@ public class DoilyDrawingArea extends JPanel{
         return image;
     }
 
-    public void addPoint(MouseEvent e) {
+    private void addPoint(MouseEvent e) {
         if (sectors % 2 == 0) {
             int tempY = e.getY() - getHeight() / 2;
             int tempX = e.getX() - getWidth() / 2;

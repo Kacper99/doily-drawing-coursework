@@ -5,8 +5,7 @@ import java.util.ArrayList;
 
 public class Gallery extends JPanel {
 
-    private ArrayList<JPanel> images = new ArrayList<>();
-    JPanel imagesPanel = new JPanel(new GridLayout(2,6));
+    private JPanel imagesPanel = new JPanel(new GridLayout(2,6));
 
     public Gallery() {
         super();
@@ -31,7 +30,6 @@ public class Gallery extends JPanel {
             }
         };
 
-        images.add(imagePanel);
         imagesPanel.add(imagePanel);
     }
 }
