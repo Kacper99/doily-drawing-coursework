@@ -18,6 +18,7 @@ public class DoilyDrawingArea extends JPanel{
     private ArrayList<Line> lines = new ArrayList<>();
     private Stack<Line> redoStack = new Stack<>();
 
+    //Getters and setters
     public void setShowSectorLines(boolean showSectorLines) {
         this.showSectorLines = showSectorLines;
         repaint();
@@ -57,6 +58,11 @@ public class DoilyDrawingArea extends JPanel{
         repaint();
     }
 
+    //
+
+    /**
+     * Adding all the mouse and mouse motion listeners within the constructor
+     */
     public DoilyDrawingArea() {
         super();
         this.setBackground(Color.BLACK);
@@ -67,6 +73,7 @@ public class DoilyDrawingArea extends JPanel{
 
             }
 
+            //When the mouse is pressed invoke addPoint, also clear the redo stack as those redo's are not needed anymore
             @Override
             public void mousePressed(MouseEvent e) {
                 addPoint(e);
@@ -74,6 +81,7 @@ public class DoilyDrawingArea extends JPanel{
                 System.out.println("mouse pressed");
             }
 
+            //When the mouse is released add the line you just drew to the line array list and the delete that line from the line variable and make a new one
             @Override
             public void mouseReleased(MouseEvent e) {
                 lines.add(line);
@@ -93,6 +101,7 @@ public class DoilyDrawingArea extends JPanel{
         });
 
         this.addMouseMotionListener(new MouseMotionListener() {
+            //Whenever the mouse is dragged, also add that point
             public void mouseDragged(MouseEvent e) {
                 addPoint(e);
                 System.out.println("Mouse dragged");
@@ -131,13 +140,13 @@ public class DoilyDrawingArea extends JPanel{
 
     private void addPoint(MouseEvent e) {
         if (sectors % 2 == 0) {
-            int tempY = e.getY() - getHeight() / 2;
-            int tempX = e.getX() - getWidth() / 2;
-            line.addPoint(new Point(-tempX, -tempY));
+            int newX = e.getX() - getWidth() / 2;
+            int newY = e.getY() - getHeight() / 2;
+            line.addPoint(new Point(-newX, -newY));
         } else {
-            int tempY = e.getY() - getHeight() / 2;
-            int tempX = e.getX() - getWidth() / 2;
-            line.addPoint(new Point(tempX, tempY));
+            int newX = e.getX() - getWidth() / 2;
+            int newY = e.getY() - getHeight() / 2;
+            line.addPoint(new Point(newX, newY));
         }
         repaint();
     }
@@ -149,9 +158,8 @@ public class DoilyDrawingArea extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setColor(Color.BLACK);
         g2d.translate(this.getWidth() / 2, this.getHeight() / 2); //Tell g2d to draw all points from the center of the panel
+
         if (showSectorLines && sectors > 1) {
             for (int i = 0; i < sectors; i++) {
                 g2d.setStroke(new BasicStroke(1));
