@@ -1,21 +1,31 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class creates the control panel with all buttons and
+ */
 public class ControlPanel extends JPanel {
 
     DoilyDrawingArea da;
+    Gallery gallery;
 
+    /**
+     * This constructor will create all the components for the control panel and add all listeners to those objects.
+     * Most of the listener objects just call a function from the drawing area instead of
+     *
+     * @param da Reference to the center drawing area
+     * @param gallery Reference to the gallery
+     */
     public ControlPanel(DoilyDrawingArea da, Gallery gallery) {
-
-        this.da = da; //Set the drawing area
+        this.da = da;
+        this.gallery = gallery;
         this.setLayout(new GridLayout(6,1));
+
+        //TODO: Clean up user interface
 
         //Clear display button
         JButton clearDisplayButton = new JButton("Clear display");
-
-        clearDisplayButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         clearDisplayButton.addActionListener(e -> da.clearDisplay());
-
         this.add(clearDisplayButton);
 
         //Pen size slider and text
@@ -23,7 +33,7 @@ public class ControlPanel extends JPanel {
         JLabel penSizeText = new JLabel("Size: 3");
 
         JSlider penSizeSlider = new JSlider(1,10);
-        penSizeSlider.addChangeListener(e -> {
+        penSizeSlider.addChangeListener(e -> { //When the user moves the slider, I also change the text next to it to display the new value
             penSizeText.setText("Size: " + penSizeSlider.getValue());
             da.setBrushSize(penSizeSlider.getValue());
         });
@@ -38,8 +48,8 @@ public class ControlPanel extends JPanel {
         JSlider sectorSlider = new JSlider(1,64);
 
         sectorSlider.addChangeListener(e -> {
-                da.setSectors(sectorSlider.getValue());
-                sectorNumberText.setText("Sectors: " + sectorSlider.getValue());
+            sectorNumberText.setText("Sectors: " + sectorSlider.getValue());
+            da.setSectors(sectorSlider.getValue());
         });
 
         sectorSelectorHolder.add(sectorNumberText);
@@ -52,10 +62,8 @@ public class ControlPanel extends JPanel {
         JCheckBox reflectDrawnPointsCB = new JCheckBox("Reflect drawn points", true);
         JCheckBox eraserCB = new JCheckBox("Eraser");
 
-
         sectorLinesCB.addChangeListener(e -> da.setShowSectorLines(sectorLinesCB.isSelected()));
         reflectDrawnPointsCB.addChangeListener(e -> da.setReflectDrawnPoints(reflectDrawnPointsCB.isSelected()));
-
         //TODO: Add eraser
         toggles.add(sectorLinesCB);
         toggles.add(reflectDrawnPointsCB);
@@ -75,17 +83,18 @@ public class ControlPanel extends JPanel {
 
         //Save image
         JButton saveImageButton = new JButton("Save image");
-        saveImageButton.addActionListener(e -> gallery.addImage(da.getImage()));
+        saveImageButton.addActionListener(e -> gallery.addImage(da.getImage())); //Get the image from the drawing area and pass it to the gallery
         buttonsHolder.add(saveImageButton);
 
         //Colour chooser
         JButton colourChooserButton = new JButton("Choose colour");
+
         colourChooserButton.addActionListener(e -> {
-            Color newColour = JColorChooser.showDialog(this, "Choose Colour", null);
+            Color newColour = JColorChooser.showDialog(this, "Choose Colour", da.getPenColour()); //Opens the colour chooser dialog and whatever colour is selected is the new brush colour
             da.setPenColour(newColour);
         });
-        buttonsHolder.add(colourChooserButton);
 
+        buttonsHolder.add(colourChooserButton);
         this.add(buttonsHolder);
     }
 }

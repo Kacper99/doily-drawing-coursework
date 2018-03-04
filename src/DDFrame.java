@@ -10,26 +10,22 @@ public class DDFrame extends JFrame {
     }
 
     public void init() {
+        JTabbedPane tabbedPane = new JTabbedPane(); //Create a tabbed pane so we can have a tab for gallery and drawing area
 
-        //Create a tabbed pane so we can have a tab for gallery and drawing area
-        JTabbedPane tabbedPane = new JTabbedPane();
         //Creating a container which will hold the drawing screen on the left and control panel on the right
         Container container = this.getContentPane();
         JPanel drawingScreen = new JPanel(new BorderLayout());
-
-        //Adding the drawing area
+        drawingScreen.setPreferredSize(new Dimension(800,800));
         DoilyDrawingArea drawingArea = new DoilyDrawingArea();
-        drawingScreen.add(drawingArea, BorderLayout.CENTER);
+        drawingScreen.add(drawingArea, BorderLayout.CENTER); //Adding drawing area to the center
 
-        //Creating a gallery
-        Gallery gallery = new Gallery();
-
-        //Adding the control panel
+        Gallery gallery = new Gallery(); //Creating an instance of gallery to hold images
         ControlPanel controlPanel = new ControlPanel(drawingArea,gallery);
-        drawingScreen.add(controlPanel,BorderLayout.EAST);
+        drawingScreen.add(controlPanel,BorderLayout.EAST);  //Creating an instance of the control panel, putting it to the right of the drawing area
 
+        //Adding tabs
         tabbedPane.addTab("Drawing area", drawingScreen);
-        tabbedPane.addTab("Gallery", gallery); //TODO: Create a variable for gallery
+        tabbedPane.addTab("Gallery", gallery);
 
         container.add(tabbedPane);
         this.setVisible(true);
