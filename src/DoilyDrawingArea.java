@@ -144,7 +144,6 @@ public class DoilyDrawingArea extends JPanel{
      * @param e Passing in the mouse event to get the coordinates of the mouse click or drag
      */
     private void addPoint(MouseEvent e) {
-        System.out.println("e | x:" + e.getX() + " y:" + e.getY());
         int newX = e.getX() - getWidth() / 2; //Adjusting x and y for 0,0 to be the center of the panel
         int newY = e.getY() - getHeight() / 2;
         if (sectors % 2 == 0) { //Adjust y value depending on if theres an odd or even number of sectors
@@ -161,11 +160,16 @@ public class DoilyDrawingArea extends JPanel{
         super.paint(g);
     }
 
+    /**
+     * Used to paint the sector lines and the users drawing
+     * @param g
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(this.getWidth() / 2, this.getHeight() / 2); //Tell g2d to draw all points from the center of the panel
 
+        //Drawing the sectors by drawing a line from the center to the bottom edge and then rotating by 360 divided by the number of sectors to get the angle to rotate by
         if (showSectorLines && sectors > 1) {
             for (int i = 0; i < sectors; i++) {
                 g2d.setStroke(new BasicStroke(1));
@@ -175,10 +179,11 @@ public class DoilyDrawingArea extends JPanel{
             }
         }
 
+        //Draw all the previous lines that were drawn before
         for (Line line1 : lines) {
             line1.drawLine(g2d);
         }
 
-        line.drawLine(g2d);
+        line.drawLine(g2d); //Draw the newest line
     }
 }
