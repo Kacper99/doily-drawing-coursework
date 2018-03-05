@@ -1,11 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Gallery extends JPanel {
 
     private JPanel imagesPanel = new JPanel(new GridLayout(3,4));
+    private ArrayList<JPanel> imagesList = new ArrayList<>();
+    private JPanel selectedImage;
 
     public Gallery() {
         super();
@@ -13,7 +18,7 @@ public class Gallery extends JPanel {
 
         //Adding a delete button
         JButton deleteImageButton = new JButton("Delete image");
-        deleteImageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        deleteImageButton.addActionListener(e -> deleteSelectedImage() );
 
         this.add(imagesPanel, BorderLayout.CENTER);
         this.add(deleteImageButton, BorderLayout.SOUTH);
@@ -22,6 +27,7 @@ public class Gallery extends JPanel {
     public void addImage(BufferedImage image) {
         Image resizedImage = image.getScaledInstance(250,250, Image.SCALE_SMOOTH);
         image.getGraphics().drawImage(resizedImage,0,0, null);
+
         JPanel imagePanel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -29,6 +35,46 @@ public class Gallery extends JPanel {
             }
         };
 
-        imagesPanel.add(imagePanel);
+        imagePanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                selectedImage = (JPanel) e.getComponent();
+                System.out.println(selectedImage);
+            }
+        });
+        if (imagesList.size() > 12) {
+            JOptionPane.showMessageDialog(this, "Gallery full, please delete an image", "Gallery full", JOptionPane.ERROR_MESSAGE);
+        } else {
+            imagesList.add(imagePanel);
+        }
+
+        redrawGallery();
+        //imagesPanel.add(imagePanel);
+    }
+
+    private void deleteSelectedImage() {
+        System.out.println("Delete button pressed");
+        Iterator<JPanel> it = imagesList.iterator();
+
+        while (it.hasNext()) {
+            JPanel panel = it.next();
+            System.out.println("In it loop");
+            if (selectedImage == panel) {
+                System.out.println("Found image");
+                imagesList.remove(panel);
+                it.remove();
+            }
+        }
+        redrawGallery();
+
+    }
+
+    private void redrawGallery() {
+        imagesPanel.removeAll();
+
+        for (JPanel panel: imagesList) {
+            imagesPanel.add(panel);
+        }
     }
 }
