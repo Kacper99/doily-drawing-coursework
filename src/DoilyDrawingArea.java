@@ -69,7 +69,7 @@ public class DoilyDrawingArea extends JPanel{
         super();
         this.setBackground(Color.BLACK);
 
-        this.addMouseListener(new MouseAdapter() {
+        this.addMouseListener(new MouseAdapter() { //Using a mouse adapter as not all methods of MouseListener are needed
             //When the mouse is pressed invoke addPoint, also clear the redo stack as those redo's are not needed anymore
             @Override
             public void mousePressed(MouseEvent e) {
@@ -87,7 +87,7 @@ public class DoilyDrawingArea extends JPanel{
             }
         });
 
-        this.addMouseMotionListener(new MouseMotionListener() {
+        this.addMouseMotionListener(new MouseMotionListener() { //MouseDragged doesn't work in MouseAdapter so need to use in MouseMotionListener
             //Whenever the mouse is dragged, also add that point
             public void mouseDragged(MouseEvent e) {
                 addPoint(e);
@@ -100,15 +100,22 @@ public class DoilyDrawingArea extends JPanel{
         });
     }
 
+    /**
+     * Clear all lines in the lines array list and then repaint
+     */
     public void clearDisplay() {
         this.lines.clear();
         repaint();
     }
 
+    /**
+     * Removes the previous line and stores it in a stack of elements which have been undone, then repaints.
+     */
     public void undo() {
         if (!lines.isEmpty()) {
-            redoStack.push(lines.get(lines.size() - 1));
-            lines.remove(lines.size() - 1);
+            Line previousLine = lines.get(lines.size() - 1);
+            redoStack.push(previousLine);
+            lines.remove(previousLine);
             repaint();
         }
     }
