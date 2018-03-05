@@ -8,6 +8,7 @@ public class Line {
     private DoilyDrawingArea da;
     private int brushSize; //Storing brush size so when it's resized later it won't affect this line
     private Color brushColour;
+    private boolean reflected;
 
     //Setters are used for when values are changed after the new line is created so they apply for the current line, and not for the next one
     public void setBrushSize(int brushSize) {
@@ -22,11 +23,16 @@ public class Line {
         this.points.add(p);
     }
 
+    public void setReflected(boolean reflected) {
+        this.reflected = reflected;
+    }
+
     public Line(DoilyDrawingArea da) {
         points = new ArrayList<>();
         this.da = da;
         this.brushSize = da.getBrushSize();
         this.brushColour = da.getPenColour();
+        this.reflected = da.isReflectDrawnPoints();
     }
 
     public void drawLine(Graphics g) {
@@ -40,6 +46,7 @@ public class Line {
             Point firstLineEnd;
             Point secondLineEnd;
 
+            //If there is only one point then we only want to draw a dot, otherwise draw a line
             if (points.size() == 1) {
                 firstLineEnd = points.get(0);
                 g2d.drawRect((int) firstLineEnd.getX(),(int) firstLineEnd.getY(), brushSize / 4, brushSize / 4);

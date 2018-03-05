@@ -5,11 +5,10 @@ import java.util.ArrayList;
 
 public class Gallery extends JPanel {
 
-    private JPanel imagesPanel = new JPanel(new GridLayout(2,6));
+    private JPanel imagesPanel = new JPanel(new GridLayout(3,4));
 
     public Gallery() {
         super();
-
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         //Adding a delete button

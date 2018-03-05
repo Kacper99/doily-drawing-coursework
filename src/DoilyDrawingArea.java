@@ -55,6 +55,7 @@ public class DoilyDrawingArea extends JPanel{
 
     public void setReflectDrawnPoints(boolean reflectDrawnPoints) {
         this.reflectDrawnPoints = reflectDrawnPoints;
+        line.setReflected(reflectDrawnPoints);
         repaint();
     }
 
