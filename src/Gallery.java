@@ -43,14 +43,14 @@ public class Gallery extends JPanel {
                 System.out.println(selectedImage);
             }
         });
-        if (imagesList.size() > 12) {
+
+        if (imagesList.size() > 11) {
             JOptionPane.showMessageDialog(this, "Gallery full, please delete an image", "Gallery full", JOptionPane.ERROR_MESSAGE);
         } else {
             imagesList.add(imagePanel);
         }
 
         redrawGallery();
-        //imagesPanel.add(imagePanel);
     }
 
     private void deleteSelectedImage() {
