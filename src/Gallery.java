@@ -37,7 +37,7 @@ public class Gallery extends JPanel {
 
         imagePanel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 super.mouseClicked(e);
                 selectedImage = (JPanel) e.getComponent();
                 System.out.println(selectedImage);
@@ -62,19 +62,19 @@ public class Gallery extends JPanel {
             System.out.println("In it loop");
             if (selectedImage == panel) {
                 System.out.println("Found image");
-                imagesList.remove(panel);
                 it.remove();
             }
         }
         redrawGallery();
+        repaint();
 
     }
 
     private void redrawGallery() {
         imagesPanel.removeAll();
-
         for (JPanel panel: imagesList) {
             imagesPanel.add(panel);
         }
+
     }
 }
