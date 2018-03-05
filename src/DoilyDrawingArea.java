@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -68,12 +69,7 @@ public class DoilyDrawingArea extends JPanel{
         super();
         this.setBackground(Color.BLACK);
 
-        this.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
+        this.addMouseListener(new MouseAdapter() {
             //When the mouse is pressed invoke addPoint, also clear the redo stack as those redo's are not needed anymore
             @Override
             public void mousePressed(MouseEvent e) {
@@ -88,16 +84,6 @@ public class DoilyDrawingArea extends JPanel{
                 lines.add(line);
                 line = new Line(DoilyDrawingArea.this);
                 System.out.println("Mouse released");
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
 
