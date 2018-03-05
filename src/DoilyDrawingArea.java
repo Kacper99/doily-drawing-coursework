@@ -113,33 +113,43 @@ public class DoilyDrawingArea extends JPanel{
      */
     public void undo() {
         if (!lines.isEmpty()) {
-            Line previousLine = lines.get(lines.size() - 1);
-            redoStack.push(previousLine);
-            lines.remove(previousLine);
+            Line previousLine = lines.get(lines.size() - 1); //Gets the latest line that has been drawn
+            redoStack.push(previousLine); //Push the line onto a stack in case the user wants to redo the line
+            lines.remove(previousLine); //Removes the latest line from the line array list
             repaint();
         }
     }
 
+    /**
+     * Redraws the last removed line
+     */
     public void redo() {
         if (!redoStack.isEmpty())
-            lines.add(redoStack.pop());
+            lines.add(redoStack.pop()); //Pop the line off the top of the stack and add it o the lines array list
         repaint();
     }
 
+    /**
+     * Turns the JPanel with the doily drawing into a buffered image which can be saved and redrawn later in the gallery
+     * @return Doily drawing as a buffered image
+     */
     public BufferedImage getImage() {
         BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
         this.paint(image.getGraphics());
         return image;
     }
 
+    /**
+     * Adds a point to the current line
+     * @param e Passing in the mouse event to get the coordinates of the mouse click or drag
+     */
     private void addPoint(MouseEvent e) {
+        int newX = e.getX() - getWidth() / 2;
+        int newY = e.getY() - getHeight() / 2;
+
         if (sectors % 2 == 0) {
-            int newX = e.getX() - getWidth() / 2;
-            int newY = e.getY() - getHeight() / 2;
             line.addPoint(new Point(-newX, -newY));
         } else {
-            int newX = e.getX() - getWidth() / 2;
-            int newY = e.getY() - getHeight() / 2;
             line.addPoint(new Point(newX, newY));
         }
         repaint();
