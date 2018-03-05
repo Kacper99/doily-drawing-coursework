@@ -9,18 +9,18 @@ public class Gallery extends JPanel {
 
     public Gallery() {
         super();
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.setLayout(new BorderLayout());
 
         //Adding a delete button
         JButton deleteImageButton = new JButton("Delete image");
         deleteImageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.add(imagesPanel);
-        this.add(deleteImageButton);
+        this.add(imagesPanel, BorderLayout.CENTER);
+        this.add(deleteImageButton, BorderLayout.SOUTH);
     }
 
     public void addImage(BufferedImage image) {
-        Image resizedImage = image.getScaledInstance(220,220, Image.SCALE_SMOOTH);
+        Image resizedImage = image.getScaledInstance(250,250, Image.SCALE_SMOOTH);
         image.getGraphics().drawImage(resizedImage,0,0, null);
         JPanel imagePanel = new JPanel() {
             protected void paintComponent(Graphics g) {
