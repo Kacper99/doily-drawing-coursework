@@ -19,14 +19,11 @@ public class ControlPanel extends JPanel {
     public ControlPanel(DoilyDrawingArea da, Gallery gallery) {
         this.da = da;
         this.gallery = gallery;
-        this.setLayout(new GridLayout(6,1));
-
-        //TODO: Clean up user interface
+        this.setLayout(new GridLayout(8,1));
 
         //Clear display button
         JButton clearDisplayButton = new JButton("Clear display");
         clearDisplayButton.addActionListener(e -> da.clearDisplay());
-        this.add(clearDisplayButton);
 
         //Pen size slider and text
         JPanel penSizeHolder = new JPanel(new FlowLayout());
@@ -40,7 +37,6 @@ public class ControlPanel extends JPanel {
 
         penSizeHolder.add(penSizeText);
         penSizeHolder.add(penSizeSlider);
-        this.add(penSizeHolder);
 
         //Sector selector
         JPanel sectorSelectorHolder = new JPanel(new FlowLayout());
@@ -54,7 +50,6 @@ public class ControlPanel extends JPanel {
 
         sectorSelectorHolder.add(sectorNumberText);
         sectorSelectorHolder.add(sectorSlider);
-        this.add(sectorSelectorHolder);
 
         //Sector lines, reflection, and eraser toggles;
         JPanel toggles = new JPanel(new FlowLayout());
@@ -68,7 +63,6 @@ public class ControlPanel extends JPanel {
         toggles.add(sectorLinesCB);
         toggles.add(reflectDrawnPointsCB);
         toggles.add(eraserCB);
-        this.add(toggles);
 
         //Undo and redo buttons
         JPanel buttonsHolder = new JPanel(new GridLayout(2,2));
@@ -78,13 +72,9 @@ public class ControlPanel extends JPanel {
         undoButton.addActionListener(e -> da.undo());
         redoButton.addActionListener(e -> da.redo());
 
-        buttonsHolder.add(undoButton);
-        buttonsHolder.add(redoButton);
-
         //Save image
         JButton saveImageButton = new JButton("Save image");
         saveImageButton.addActionListener(e -> gallery.addImage(da.getImage())); //Get the image from the drawing area and pass it to the gallery
-        buttonsHolder.add(saveImageButton);
 
         //Colour chooser
         JButton colourChooserButton = new JButton("Choose colour");
@@ -94,7 +84,14 @@ public class ControlPanel extends JPanel {
             da.setPenColour(newColour);
         });
 
-        buttonsHolder.add(colourChooserButton);
-        this.add(buttonsHolder);
+
+        this.add(penSizeHolder);
+        this.add(sectorSelectorHolder);
+        this.add(toggles);
+        this.add(clearDisplayButton);
+        this.add(undoButton);
+        this.add(redoButton);
+        this.add(saveImageButton);
+        this.add(colourChooserButton);
     }
 }
