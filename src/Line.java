@@ -50,7 +50,7 @@ public class Line {
             if (points.size() == 1) {
                 firstLineEnd = points.get(0);
                 g2d.drawRect((int) firstLineEnd.getX(),(int) firstLineEnd.getY(), brushSize / 4, brushSize / 4);
-                if (da.isReflectDrawnPoints()) {
+                if (reflected) {
                     g2d.drawRect(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), brushSize / 4, brushSize / 4);
                 }
                 g2d.rotate(Math.toRadians((double) 360 / da.getSectors()));
@@ -65,7 +65,7 @@ public class Line {
 
                     g2d.drawLine((int) firstLineEnd.getX(), (int) firstLineEnd.getY(), (int) secondLineEnd.getX(), (int) secondLineEnd.getY());
 
-                    if (da.isReflectDrawnPoints()) {
+                    if (reflected) {
                         g2d.drawLine(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), -(int) secondLineEnd.getX(), (int) secondLineEnd.getY());
                     }
 

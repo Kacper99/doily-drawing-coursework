@@ -27,7 +27,7 @@ public class ControlPanel extends JPanel {
 
         //Pen size slider and text
         JPanel penSizeHolder = new JPanel(new FlowLayout());
-        JLabel penSizeText = new JLabel("Size: 3");
+        JLabel penSizeText = new JLabel("Size: 5");
 
         JSlider penSizeSlider = new JSlider(1,10);
         penSizeSlider.addChangeListener(e -> { //When the user moves the slider, I also change the text next to it to display the new value
@@ -83,7 +83,6 @@ public class ControlPanel extends JPanel {
             Color newColour = JColorChooser.showDialog(this, "Choose Colour", da.getPenColour()); //Opens the colour chooser dialog and whatever colour is selected is the new brush colour
             da.setPenColour(newColour);
         });
-
 
         this.add(penSizeHolder);
         this.add(sectorSelectorHolder);
