@@ -27,6 +27,10 @@ public class Line {
         this.reflected = reflected;
     }
 
+    /**
+     * Set all the current line settings in the construcor
+     * @param da Reference to the drawing area
+     */
     public Line(DoilyDrawingArea da) {
         points = new ArrayList<>();
         this.da = da;
@@ -35,44 +39,42 @@ public class Line {
         this.reflected = da.isReflectDrawnPoints();
     }
 
+    /**
+     * Draw the point or line
+     * @param g
+     */
     public void drawLine(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(brushColour);
+        g2d.setColor(brushColour); //Setting the colour of the line to the one selected by the user
+        g2d.setStroke(new BasicStroke(brushSize));
 
         for (int i = 0; i < da.getSectors(); i++) {
-            g2d.setStroke(new BasicStroke(brushSize));
             Iterator<Point> iter = points.iterator();
             Point firstLineEnd;
             Point secondLineEnd;
 
             //If there is only one point then we only want to draw a dot, otherwise draw a line
             if (points.size() == 1) {
-                firstLineEnd = points.get(0);
-                g2d.drawRect((int) firstLineEnd.getX(),(int) firstLineEnd.getY(), brushSize / 4, brushSize / 4);
+                firstLineEnd = points.get(0); //Instead of using iterator, use points to get the first coordinate
+                g2d.drawRect((int) firstLineEnd.getX(),(int) firstLineEnd.getY(), brushSize / 4, brushSize / 4); //Draw a point at the coordinate and set the width to the brush siz
                 if (reflected) {
-                    g2d.drawRect(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), brushSize / 4, brushSize / 4);
+                    g2d.drawRect(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), brushSize / 4, brushSize / 4); //Reflect by drawing at the negative x , as the (0,0) is in the middle of the screen
                 }
-                g2d.rotate(Math.toRadians((double) 360 / da.getSectors()));
-
             } else if (points.size() > 1){
+                firstLineEnd = iter.next(); //Set the first line end to the next item in the iterator
 
-                firstLineEnd = iter.next();
-
-                while (iter.hasNext()) {
-
+                while (iter.hasNext()) { //Loop until we get to the end of the iterator
                     secondLineEnd = iter.next();
 
-                    g2d.drawLine((int) firstLineEnd.getX(), (int) firstLineEnd.getY(), (int) secondLineEnd.getX(), (int) secondLineEnd.getY());
-
+                    g2d.drawLine((int) firstLineEnd.getX(), (int) firstLineEnd.getY(), (int) secondLineEnd.getX(), (int) secondLineEnd.getY()); //Draw a line between the first point and the second one
                     if (reflected) {
-                        g2d.drawLine(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), -(int) secondLineEnd.getX(), (int) secondLineEnd.getY());
+                        g2d.drawLine(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), -(int) secondLineEnd.getX(), (int) secondLineEnd.getY()); //Reflect the line
                     }
-
-                    firstLineEnd = secondLineEnd; //Set the new line beginning to the old ending
+                    firstLineEnd = secondLineEnd; //Set the next line beginning to the current ending
                 }
-                g2d.rotate(Math.toRadians((double) 360 / da.getSectors()));
             }
+            g2d.rotate(Math.toRadians((double) 360 / da.getSectors())); //Rotate to draw it through all sectors.
         }
     }
 }
