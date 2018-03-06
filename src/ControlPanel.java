@@ -40,7 +40,7 @@ public class ControlPanel extends JPanel {
 
         //Sector selector
         JPanel sectorSelectorHolder = new JPanel(new FlowLayout());
-        JLabel sectorNumberText = new JLabel("Sectors: 16");
+        JLabel sectorNumberText = new JLabel("Sectors: 32");
         JSlider sectorSlider = new JSlider(1,64);
 
         sectorSlider.addChangeListener(e -> {

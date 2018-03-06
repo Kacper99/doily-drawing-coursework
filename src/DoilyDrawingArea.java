@@ -141,13 +141,13 @@ public class DoilyDrawingArea extends JPanel{
      * @param e Passing in the mouse event to get the coordinates of the mouse click or drag
      */
     private void addPoint(MouseEvent e) {
-        int newX = e.getX() - getWidth() / 2; //Adjusting x and y for 0,0 to be the center of the panel
-        int newY = e.getY() - getHeight() / 2;
-        if (sectors % 2 == 0) { //Adjust y value depending on if theres an odd or even number of sectors
-            line.addPoint(new Point(-newX, -newY));
+        int x = e.getX() - getWidth() / 2; //Adjusting x and y for 0,0 to be the center of the panel
+        int y = e.getY() - getHeight() / 2;
+        if (sectors % 2 == 0) { //Reflect x and y if even number of sectors, technically not needed if we're reflecting but we have to account for when it is not being reflected
+            line.addPoint(new Point(-x, -y));
 
         } else {
-            line.addPoint(new Point(newX, newY));
+            line.addPoint(new Point(x, y));
 
         }
         repaint();
