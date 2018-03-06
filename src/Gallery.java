@@ -53,6 +53,7 @@ public class Gallery extends JPanel {
                 public void mousePressed(MouseEvent e) {
                     super.mouseClicked(e);
                     selectedImage = (JPanel) e.getComponent(); //Whenever the JPanel is clicked, store that in a variable.
+                    redrawGallery(); //Redraw the gallery so we can highlight the selected image
                 }
             });
             imagesList.add(imagePanel); //Add the image to thr arraylist
@@ -83,6 +84,11 @@ public class Gallery extends JPanel {
     private void redrawGallery() {
         imagesPanel.removeAll(); //First remove all images from the gridpanel
         for (JPanel panel: imagesList) {
+            if (selectedImage == panel) { //Look for the selected image to add a blue border to it
+                panel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+            } else {
+                panel.setBorder(null); //If the panel is not the selected image then remove the border from it (in case it was selected before)
+            }
             imagesPanel.add(panel); //Iterate through every JPanel and add it to the grid layout
         }
         imagesPanel.updateUI();
