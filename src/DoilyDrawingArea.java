@@ -12,7 +12,7 @@ public class DoilyDrawingArea extends JPanel{
     private boolean showSectorLines = true;
     private boolean reflectDrawnPoints = true;
     private int sectors = 32;
-    private int brushSize = 3;
+    private int brushSize = 5;
     private Color penColour = Color.WHITE;
     private Line line = new Line(this);
     private ArrayList<Line> lines = new ArrayList<>();
@@ -58,8 +58,6 @@ public class DoilyDrawingArea extends JPanel{
         line.setReflected(reflectDrawnPoints);
         repaint();
     }
-
-    //
 
     /**
      * Adding all the mouse and mouse motion listeners within the constructor
