@@ -144,7 +144,7 @@ public class DoilyDrawingArea extends JPanel{
         int newX = e.getX() - getWidth() / 2; //Adjusting x and y for 0,0 to be the center of the panel
         int newY = e.getY() - getHeight() / 2;
         if (sectors % 2 == 0) { //Adjust y value depending on if theres an odd or even number of sectors
-            line.addPoint(new Point(newX, -newY));
+            line.addPoint(new Point(-newX, -newY));
 
         } else {
             line.addPoint(new Point(newX, newY));
