@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ public class DoilyDrawingArea extends JPanel{
 
     private boolean showSectorLines = true;
     private boolean reflectDrawnPoints = true;
-    private int sectors = 16;
+    private int sectors = 32;
     private int brushSize = 3;
     private Color penColour = Color.WHITE;
     private Line line = new Line(this);
