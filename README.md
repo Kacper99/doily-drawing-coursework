@@ -2,11 +2,10 @@
 
 ## Running
 First compile all files:
-'''
+```$xslt
 javac *.java
-'''
-
+```
 Then run main
-'''
+```$xslt
 java Main
-'''
+```
