@@ -18,7 +18,7 @@ public class DoilyDrawingArea extends JPanel{
     private ArrayList<Line> lines = new ArrayList<>();
     private Stack<Line> redoStack = new Stack<>();
 
-    //Getters and setters
+    //Getters and setters. For variables which change the line options, I also call the line setters.
     public void setShowSectorLines(boolean showSectorLines) {
         this.showSectorLines = showSectorLines;
         repaint();
@@ -56,7 +56,6 @@ public class DoilyDrawingArea extends JPanel{
     public void setReflectDrawnPoints(boolean reflectDrawnPoints) {
         this.reflectDrawnPoints = reflectDrawnPoints;
         line.setReflected(reflectDrawnPoints);
-        repaint();
     }
 
     /**
