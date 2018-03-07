@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+@SuppressWarnings("WeakerAccess")
 public class Line {
 
     private ArrayList<Point> points;
@@ -28,7 +29,7 @@ public class Line {
     }
 
     /**
-     * Set all the current line settings in the construcor
+     * Set all the current line settings in the constructor
      * @param da Reference to the drawing area
      */
     public Line(DoilyDrawingArea da) {
@@ -50,7 +51,7 @@ public class Line {
         g2d.setStroke(new BasicStroke(brushSize));
 
         for (int i = 0; i < da.getSectors(); i++) {
-            Iterator<Point> iter = points.iterator();
+            Iterator<Point> pointIterator = points.iterator();
             Point firstLineEnd;
             Point secondLineEnd;
 
@@ -62,10 +63,10 @@ public class Line {
                     g2d.drawRect(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), brushSize / 4, brushSize / 4); //Reflect by drawing at the negative x , as the (0,0) is in the middle of the screen
                 }
             } else if (points.size() > 1){
-                firstLineEnd = iter.next(); //Set the first line end to the next item in the iterator
+                firstLineEnd = pointIterator.next(); //Set the first line end to the next item in the iterator
 
-                while (iter.hasNext()) { //Loop until we get to the end of the iterator
-                    secondLineEnd = iter.next();
+                while (pointIterator.hasNext()) { //Loop until we get to the end of the iterator
+                    secondLineEnd = pointIterator.next();
 
                     g2d.drawLine((int) firstLineEnd.getX(), (int) firstLineEnd.getY(), (int) secondLineEnd.getX(), (int) secondLineEnd.getY()); //Draw a line between the first point and the second one
                     if (reflected) {

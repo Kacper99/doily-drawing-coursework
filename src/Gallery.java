@@ -14,7 +14,7 @@ public class Gallery extends JPanel {
     private JPanel selectedImage;
 
     /**
-     * The constructor intialises the gallery with a border layout which will hold the grid layout for the images and the delete button
+     * The constructor initialises the gallery with a border layout which will hold the grid layout for the images and the delete button
      */
     public Gallery() {
         super();

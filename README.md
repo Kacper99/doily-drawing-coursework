@@ -1,4 +1,4 @@
-# Doily Drawing Courswork - Programming II
+# Doily Drawing Coursework - Programming II
 
 ## Running
 First compile all files:

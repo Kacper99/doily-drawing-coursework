@@ -6,9 +6,6 @@ import java.awt.*;
  */
 public class ControlPanel extends JPanel {
 
-    DoilyDrawingArea da;
-    Gallery gallery;
-
     /**
      * This constructor will create all the components for the control panel and add all listeners to those objects.
      * Most of the listener objects just call a function from the drawing area instead of
@@ -17,8 +14,6 @@ public class ControlPanel extends JPanel {
      * @param gallery Reference to the gallery
      */
     public ControlPanel(DoilyDrawingArea da, Gallery gallery) {
-        this.da = da;
-        this.gallery = gallery;
         this.setLayout(new GridLayout(8,1));
 
         //Clear display button
@@ -65,7 +60,6 @@ public class ControlPanel extends JPanel {
         toggles.add(eraserCB);
 
         //Undo and redo buttons
-        JPanel buttonsHolder = new JPanel(new GridLayout(2,2));
         JButton undoButton = new JButton("Undo");
         JButton redoButton = new JButton("Redo");
 
