@@ -14,7 +14,7 @@ public class DoilyDrawingArea extends JPanel{
     private int sectors = 32;
     private int brushSize = 5;
     private Color penColour = Color.WHITE;
-    private Line line = new Line(this);
+    private Line line;
     private ArrayList<Line> lines = new ArrayList<>();
     private Stack<Line> redoStack = new Stack<>();
 
@@ -64,6 +64,7 @@ public class DoilyDrawingArea extends JPanel{
     public DoilyDrawingArea() {
         super();
         this.setBackground(Color.BLACK);
+        line = new Line(this);
 
         this.addMouseListener(new MouseAdapter() { //Using a mouse adapter as not all methods of MouseListener are needed
             //When the mouse is pressed invoke addPoint, also clear the redo stack as those redo's are not needed anymore
@@ -152,24 +153,20 @@ public class DoilyDrawingArea extends JPanel{
         repaint();
     }
 
-    public void paint(Graphics g) {
-        super.paint(g);
-    }
-
     /**
      * Used to paint the sector lines and the users drawing
-     * @param g
+     * @param g Graphics
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(this.getWidth() / 2, this.getHeight() / 2); //Tell g2d to draw all points from the center of the panel
+        g2d.setStroke(new BasicStroke(1)); //Setting brush options for sector lines
+        g2d.setColor(Color.GREEN);
 
         //Drawing the sectors by drawing a line from the center to the bottom edge and then rotating by 360 divided by the number of sectors to get the angle to rotate by
         if (showSectorLines && sectors > 1) {
             for (int i = 0; i < sectors; i++) {
-                g2d.setStroke(new BasicStroke(1));
-                g2d.setColor(Color.GREEN);
                 g2d.drawLine(0, 0, 0, -400);
                 g2d.rotate(Math.toRadians((double) 360 / sectors));
             }
