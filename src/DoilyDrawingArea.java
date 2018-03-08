@@ -143,11 +143,14 @@ public class DoilyDrawingArea extends JPanel{
     private void addPoint(MouseEvent e) {
         int x = e.getX() - getWidth() / 2; //Adjusting x and y for 0,0 to be the center of the panel
         int y = e.getY() - getHeight() / 2;
+        line.addPoint(new Point(x,y));
+        /*
         if (sectors % 2 == 0) { //Reflect x and y if even number of sectors, technically not needed if we're reflecting but we have to account for when it is not being reflected
-            line.addPoint(new Point(-x, -y));
+            line.addPoint(new Point(x, y));
         } else {
             line.addPoint(new Point(x, y));
         }
+        */
         repaint();
     }
 
