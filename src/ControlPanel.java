@@ -24,7 +24,7 @@ public class ControlPanel extends JPanel {
         JPanel penSizeHolder = new JPanel(new FlowLayout());
         JLabel penSizeText = new JLabel("Size: 5");
 
-        JSlider penSizeSlider = new JSlider(1,10);
+        JSlider penSizeSlider = new JSlider(1,20);
         penSizeSlider.addChangeListener(e -> { //When the user moves the slider, I also change the text next to it to display the new value
             penSizeText.setText("Size: " + penSizeSlider.getValue());
             da.setBrushSize(penSizeSlider.getValue());
