@@ -58,18 +58,18 @@ public class Line {
             //If there is only one point then we only want to draw a dot, otherwise draw a line
             if (points.size() == 1) {
                 firstLineEnd = points.get(0); //Instead of using iterator, use points to get the first coordinate
-                g2d.fillOval((int) firstLineEnd.getX(),(int) firstLineEnd.getY(), brushSize, brushSize); //Draw a point at the coordinate and set the width to the brush siz
+                g2d.fillOval((int) firstLineEnd.getX() - brushSize/2,(int) firstLineEnd.getY()- brushSize/2, brushSize, brushSize); //Draw a point at the coordinate and set the width to the brush siz
                 if (reflected)
-                    g2d.fillOval(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), brushSize , brushSize); //Reflect by drawing at the negative x , as the (0,0) is in the middle of the screen
+                    g2d.fillOval(-(int) firstLineEnd.getX()- brushSize/2, (int) firstLineEnd.getY()- brushSize/2, brushSize , brushSize); //Reflect by drawing at the negative x , as the (0,0) is in the middle of the screen
             } else if (points.size() > 1){
                 firstLineEnd = pointIterator.next(); //Set the first line end to the next item in the iterator
 
                 while (pointIterator.hasNext()) { //Loop until we get to the end of the iterator
                     secondLineEnd = pointIterator.next();
 
-                    g2d.fillOval((int) firstLineEnd.getX(),(int) firstLineEnd.getY(), brushSize, brushSize); //Draw a point at the coordinate and set the width to the brush siz
+                    g2d.fillOval((int) firstLineEnd.getX()- brushSize/2,(int) firstLineEnd.getY()- brushSize/2, brushSize, brushSize); //Draw a point at the coordinate and set the width to the brush siz
                     if (reflected)
-                        g2d.fillOval(-(int) firstLineEnd.getX(),(int) firstLineEnd.getY(), brushSize, brushSize); //Draw a point at the coordinate and set the width to the brush siz
+                        g2d.fillOval(-(int) firstLineEnd.getX()- brushSize/2,(int) firstLineEnd.getY()- brushSize/2, brushSize, brushSize); //Draw a point at the coordinate and set the width to the brush siz
                     firstLineEnd = secondLineEnd; //Set the next line beginning to the current ending
                 }
             }
