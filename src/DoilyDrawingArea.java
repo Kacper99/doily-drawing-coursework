@@ -145,10 +145,8 @@ public class DoilyDrawingArea extends JPanel{
         int y = e.getY() - getHeight() / 2;
         if (sectors % 2 == 0) { //Reflect x and y if even number of sectors, technically not needed if we're reflecting but we have to account for when it is not being reflected
             line.addPoint(new Point(-x, -y));
-
         } else {
             line.addPoint(new Point(x, y));
-
         }
         repaint();
     }
@@ -162,13 +160,13 @@ public class DoilyDrawingArea extends JPanel{
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(this.getWidth() / 2, this.getHeight() / 2); //Tell g2d to draw all points from the center of the panel
         g2d.setStroke(new BasicStroke(1)); //Setting brush options for sector lines
-        g2d.setColor(Color.GREEN);
+        g2d.setColor(Color.GREEN); //Line colour of sector seperators
 
         //Drawing the sectors by drawing a line from the center to the bottom edge and then rotating by 360 divided by the number of sectors to get the angle to rotate by
         if (showSectorLines && sectors > 1) {
             for (int i = 0; i < sectors; i++) {
                 g2d.drawLine(0, 0, 0, -400);
-                g2d.rotate(Math.toRadians((double) 360 / sectors));
+                g2d.rotate(Math.toRadians(360.0 / sectors));
             }
         }
 

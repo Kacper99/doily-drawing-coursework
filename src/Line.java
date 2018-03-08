@@ -59,9 +59,8 @@ public class Line {
             if (points.size() == 1) {
                 firstLineEnd = points.get(0); //Instead of using iterator, use points to get the first coordinate
                 g2d.drawRect((int) firstLineEnd.getX(),(int) firstLineEnd.getY(), brushSize / 4, brushSize / 4); //Draw a point at the coordinate and set the width to the brush siz
-                if (reflected) {
+                if (reflected)
                     g2d.drawRect(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), brushSize / 4, brushSize / 4); //Reflect by drawing at the negative x , as the (0,0) is in the middle of the screen
-                }
             } else if (points.size() > 1){
                 firstLineEnd = pointIterator.next(); //Set the first line end to the next item in the iterator
 
@@ -69,13 +68,12 @@ public class Line {
                     secondLineEnd = pointIterator.next();
 
                     g2d.drawLine((int) firstLineEnd.getX(), (int) firstLineEnd.getY(), (int) secondLineEnd.getX(), (int) secondLineEnd.getY()); //Draw a line between the first point and the second one
-                    if (reflected) {
+                    if (reflected)
                         g2d.drawLine(-(int) firstLineEnd.getX(), (int) firstLineEnd.getY(), -(int) secondLineEnd.getX(), (int) secondLineEnd.getY()); //Reflect the line
-                    }
                     firstLineEnd = secondLineEnd; //Set the next line beginning to the current ending
                 }
             }
-            g2d.rotate(Math.toRadians((double) 360 / da.getSectors())); //Rotate to draw it through all sectors.
+            g2d.rotate(Math.toRadians(360.0 / da.getSectors())); //Rotate to draw it through all sectors.
         }
     }
 }
