@@ -52,9 +52,9 @@ public class Line {
             Double angle = (360.0/da.getSectors()) * i;
             int newX = (int)(p.getX() * Math.cos(Math.toRadians(angle)) - p.getY() * Math.sin(Math.toRadians(angle)));
             int newY = (int)(p.getY() * Math.cos(Math.toRadians(angle)) + p.getX() * Math.sin(Math.toRadians(angle)));
-
             if (reflected)
-                allPoints.add(new Point(-newX, -newY));
+                allPoints.add(new Point(-newX, newY));
+            allPoints.add(new Point(newX, newY));
 
         }
 
