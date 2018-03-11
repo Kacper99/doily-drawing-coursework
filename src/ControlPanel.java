@@ -54,6 +54,7 @@ public class ControlPanel extends JPanel {
 
         sectorLinesCB.addChangeListener(e -> da.setShowSectorLines(sectorLinesCB.isSelected()));
         reflectDrawnPointsCB.addChangeListener(e -> da.setReflectDrawnPoints(reflectDrawnPointsCB.isSelected()));
+        eraserCB.addChangeListener(e -> da.setPenAsEraser(eraserCB.isSelected()));
         toggles.add(sectorLinesCB);
         toggles.add(reflectDrawnPointsCB);
         toggles.add(eraserCB);

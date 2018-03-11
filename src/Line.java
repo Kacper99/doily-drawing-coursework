@@ -2,7 +2,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-@SuppressWarnings("WeakerAccess")
 public class Line {
 
     private ArrayList<Point> points;
@@ -10,6 +9,7 @@ public class Line {
     private int brushSize; //Storing brush size so when it's resized later it won't affect this line
     private Color brushColour;
     private boolean reflected;
+    private boolean isEraser;
 
     //Setters are used for when values are changed after the new line is created so they apply for the current line, and not for the next one
     public void setBrushSize(int brushSize) {
@@ -28,6 +28,10 @@ public class Line {
         this.reflected = reflected;
     }
 
+    public ArrayList<Point> getPoints() {
+        return points;
+    }
+
     /**
      * Set all the current line settings in the constructor
      * @param da Reference to the drawing area
@@ -38,8 +42,37 @@ public class Line {
         this.brushSize = da.getBrushSize();
         this.brushColour = da.getPenColour();
         this.reflected = da.isReflectDrawnPoints();
+        this.isEraser = da.isPenAsEraser();
     }
 
+    public void removePoint(Point p) {
+        Iterator<Point> pointsIterator = points.iterator();
+        ArrayList<Point> allPoints =  new ArrayList<>();
+        for (int i = 1; i < da.getSectors() + 1; i++) {
+            Double angle = (360.0/da.getSectors()) * i;
+            int newX = (int)(p.getX() * Math.cos(Math.toRadians(angle)) - p.getY() * Math.sin(Math.toRadians(angle)));
+            int newY = (int)(p.getY() * Math.cos(Math.toRadians(angle)) + p.getX() * Math.sin(Math.toRadians(angle)));
+
+            if (reflected)
+                allPoints.add(new Point(-newX, -newY));
+
+        }
+
+        System.out.println(allPoints.toString());
+        while (pointsIterator.hasNext()) {
+            Point checkPoint = pointsIterator.next();
+            for (Point angledPoint: allPoints) {
+                //Calculate distance
+                Double distance = Math.sqrt(Math.pow(checkPoint.getX()-angledPoint.getX(),2) + Math.pow(checkPoint.getY()-angledPoint.getY(), 2));
+                System.out.println("Distance " + distance);
+                System.out.println("Passed Point: " + angledPoint.getX() + "," + angledPoint.getY() + " point to check: " + checkPoint.getX() + "," + checkPoint.getY());
+                if (distance <= brushSize /2) {
+                    System.out.println("Found point");
+                    pointsIterator.remove();
+                }
+            }
+        }
+    }
     /**
      * Draw the point or line
      * @param g
@@ -53,8 +86,16 @@ public class Line {
         for (int i = 0; i < da.getSectors(); i++) {
             Iterator<Point> pointIterator = points.iterator();
             Point firstLineEnd;
-            Point secondLineEnd;
+            //Point secondLineEnd;
 
+            while (pointIterator.hasNext()) {
+                firstLineEnd = pointIterator.next();
+                g2d.fillOval((int) firstLineEnd.getX()- brushSize/2,(int) firstLineEnd.getY()- brushSize/2, brushSize, brushSize); //Draw a point at the coordinate and set the width to the brush siz
+                if (reflected)
+                    g2d.fillOval(-(int) firstLineEnd.getX()- brushSize/2,(int) firstLineEnd.getY()- brushSize/2, brushSize, brushSize); //Draw a point at the coordinate and set the width to the brush siz
+
+            }
+            /*
             //If there is only one point then we only want to draw a dot, otherwise draw a line
             if (points.size() == 1) {
                 firstLineEnd = points.get(0); //Instead of using iterator, use points to get the first coordinate
@@ -73,6 +114,7 @@ public class Line {
                     firstLineEnd = secondLineEnd; //Set the next line beginning to the current ending
                 }
             }
+            */
             g2d.rotate(Math.toRadians(360.0 / da.getSectors())); //Rotate to draw it through all sectors.
         }
     }

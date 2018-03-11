@@ -5,12 +5,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Stack;
 
 public class DoilyDrawingArea extends JPanel{
 
     private boolean showSectorLines = true;
     private boolean reflectDrawnPoints = true;
+    private boolean penAsEraser = false;
     private int sectors = 32;
     private int brushSize = 5;
     private Color penColour = Color.WHITE;
@@ -58,6 +60,14 @@ public class DoilyDrawingArea extends JPanel{
         line.setReflected(reflectDrawnPoints);
     }
 
+    public boolean isPenAsEraser() {
+        return penAsEraser;
+    }
+
+    public void setPenAsEraser(boolean penAsEraser) {
+        this.penAsEraser = penAsEraser;
+    }
+
     /**
      * Adding all the mouse and mouse motion listeners within the constructor
      */
@@ -70,8 +80,12 @@ public class DoilyDrawingArea extends JPanel{
             //When the mouse is pressed invoke addPoint, also clear the redo stack as those redo's are not needed anymore
             @Override
             public void mousePressed(MouseEvent e) {
-                addPoint(e);
-                redoStack.clear();
+                if (penAsEraser) {
+                    eraser(e);
+                } else {
+                    addPoint(e);
+                    redoStack.clear();
+                }
                 System.out.println("mouse pressed");
             }
 
@@ -87,7 +101,11 @@ public class DoilyDrawingArea extends JPanel{
         this.addMouseMotionListener(new MouseMotionListener() { //MouseDragged doesn't work in MouseAdapter so need to use in MouseMotionListener
             //Whenever the mouse is dragged, also add that point
             public void mouseDragged(MouseEvent e) {
-                addPoint(e);
+                if (penAsEraser) {
+                    eraser(e);
+                } else {
+                    addPoint(e);
+                }
                 System.out.println("Mouse dragged");
             }
 
@@ -105,6 +123,14 @@ public class DoilyDrawingArea extends JPanel{
         repaint();
     }
 
+    private void eraser(MouseEvent e) {
+        Iterator<Line> linesIterator = lines.iterator();
+        while (linesIterator.hasNext()) {
+            Line checkLine = linesIterator.next();
+            checkLine.removePoint(new Point(e.getX() - getWidth() / 2, e.getY() - getHeight() / 2));
+            repaint();
+        }
+    }
     /**
      * Removes the previous line and stores it in a stack of elements which have been undone, then repaints.
      */
