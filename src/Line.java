@@ -10,7 +10,6 @@ public class Line {
     private Color brushColour;
     private boolean reflected;
     private boolean isEraser;
-
     //Setters are used for when values are changed after the new line is created so they apply for the current line, and not for the next one
     public void setBrushSize(int brushSize) {
         this.brushSize = brushSize;
@@ -45,29 +44,30 @@ public class Line {
         this.isEraser = da.isPenAsEraser();
     }
 
+    /**
+     * This method will attempt to remove the point if it can find it in the points list
+     * @param p The point to be removed
+     */
     public void removePoint(Point p) {
         Iterator<Point> pointsIterator = points.iterator();
         ArrayList<Point> allPoints =  new ArrayList<>();
-        for (int i = 1; i < da.getSectors() + 1; i++) {
+
+        for (int i = 1; i < da.getSectors() + 1; i++) { //Loop through each point and calculate the x and y of the point in that sector
             Double angle = (360.0/da.getSectors()) * i;
-            int newX = (int)(p.getX() * Math.cos(Math.toRadians(angle)) - p.getY() * Math.sin(Math.toRadians(angle)));
-            int newY = (int)(p.getY() * Math.cos(Math.toRadians(angle)) + p.getX() * Math.sin(Math.toRadians(angle)));
-            if (reflected)
+            int newX = (int)(p.getX() * Math.cos(Math.toRadians(angle)) - p.getY() * Math.sin(Math.toRadians(angle))); //Calculate the x of the point in that sector
+            int newY = (int)(p.getY() * Math.cos(Math.toRadians(angle)) + p.getX() * Math.sin(Math.toRadians(angle))); //Calculate the y of the point in that sector
+            if (reflected) //Also do it for reflections
                 allPoints.add(new Point(-newX, newY));
-            allPoints.add(new Point(newX, newY));
+            allPoints.add(new Point(newX, newY)); //Add the point to the list of points to check
 
         }
 
-        System.out.println(allPoints.toString());
-        while (pointsIterator.hasNext()) {
+        while (pointsIterator.hasNext()) { //Loop through all the points in the line
             Point checkPoint = pointsIterator.next();
-            for (Point angledPoint: allPoints) {
-                //Calculate distance
-                Double distance = Math.sqrt(Math.pow(checkPoint.getX()-angledPoint.getX(),2) + Math.pow(checkPoint.getY()-angledPoint.getY(), 2));
+            for (Point angledPoint: allPoints) { //Compare the point to the mouse click in all sectors
+                Double distance = Math.sqrt(Math.pow(checkPoint.getX()-angledPoint.getX(),2) + Math.pow(checkPoint.getY()-angledPoint.getY(), 2)); //Calculate the distance to the point
                 System.out.println("Distance " + distance);
-                System.out.println("Passed Point: " + angledPoint.getX() + "," + angledPoint.getY() + " point to check: " + checkPoint.getX() + "," + checkPoint.getY());
-                if (distance <= brushSize /2) {
-                    System.out.println("Found point");
+                if (distance <= brushSize) { //Check if the distance is less than or equal to the brush size and if it is then remove the point
                     pointsIterator.remove();
                 }
             }

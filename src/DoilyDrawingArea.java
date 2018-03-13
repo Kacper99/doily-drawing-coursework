@@ -14,7 +14,7 @@ public class DoilyDrawingArea extends JPanel{
     private boolean reflectDrawnPoints = true;
     private boolean penAsEraser = false;
     private int sectors = 32;
-    private int brushSize = 5;
+    private int brushSize = 10;
     private Color penColour = Color.WHITE;
     private Line line;
     private ArrayList<Line> lines = new ArrayList<>();
@@ -123,11 +123,16 @@ public class DoilyDrawingArea extends JPanel{
         repaint();
     }
 
+    /**
+     * Used to erase points from the doily. Iterates through every line and checks if the point is in any of those lines.
+     * @param e The MouseEvent used to get the co-ordinates
+     */
     private void eraser(MouseEvent e) {
         Iterator<Line> linesIterator = lines.iterator();
         while (linesIterator.hasNext()) {
             Line checkLine = linesIterator.next();
-            checkLine.removePoint(new Point(e.getX() - getWidth() / 2, e.getY() - getHeight() / 2));
+            checkLine.removePoint(new Point(e.getX() - getWidth() / 2, e.getY() - getHeight() / 2)); //Pass in the point adjusted for the centre
+
             repaint();
         }
     }
