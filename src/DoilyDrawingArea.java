@@ -21,33 +21,55 @@ public class DoilyDrawingArea extends JPanel{
     private Stack<Line> redoStack = new Stack<>();
 
     //Getters and setters. For variables which change the line options, I also call the line setters.
+
+    /**
+     * @param showSectorLines Whether to show the sector lines or not
+     */
     public void setShowSectorLines(boolean showSectorLines) {
         this.showSectorLines = showSectorLines;
         repaint();
     }
 
+    /**
+     * @param sectors Number of sectors to set for the doily
+     */
     public void setSectors(int sectors) {
         this.sectors = sectors;
         repaint();
     }
 
+    /**
+     * @return The colour of the pen
+     */
     public Color getPenColour() {
         return penColour;
     }
 
+    /**
+     * @param colour The colour to set the brush to
+     */
     public void setPenColour(Color colour) {
         this.penColour = colour;
         line.setBrushColour(colour);
     }
 
+    /**
+     * @return The brush size
+     */
     public int getBrushSize() {
         return brushSize;
     }
 
+    /**
+     * @return Whether the points are reflected or not
+     */
     public boolean isReflectDrawnPoints() {
         return reflectDrawnPoints;
     }
 
+    /**
+     * @return Get the number of sectors
+     */
     public int getSectors() { return sectors;}
 
     public void setBrushSize(int brushSize) {
@@ -80,12 +102,12 @@ public class DoilyDrawingArea extends JPanel{
             //When the mouse is pressed invoke addPoint, also clear the redo stack as those redo's are not needed anymore
             @Override
             public void mousePressed(MouseEvent e) {
-                if (penAsEraser) {
+                if (penAsEraser) { //If the user has selected the eraser then erase the point instead of adding a new one
                     eraser(e);
                 } else {
                     addPoint(e);
-                    redoStack.clear();
                 }
+                redoStack.clear();
                 System.out.println("mouse pressed");
             }
 
@@ -109,9 +131,7 @@ public class DoilyDrawingArea extends JPanel{
                 System.out.println("Mouse dragged");
             }
 
-            public void mouseMoved(MouseEvent e) {
-
-            }
+            public void mouseMoved(MouseEvent e) { } //Method not needed
         });
     }
 
@@ -162,8 +182,8 @@ public class DoilyDrawingArea extends JPanel{
      * @return Doily drawing as a buffered image
      */
     public BufferedImage getImage() {
-        BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
-        this.paint(image.getGraphics());
+        BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR); //Create a new BufferedImage with height and width of the jPanel
+        this.paint(image.getGraphics()); //Draw the doily onto the buffered image
         return image;
     }
 
@@ -175,13 +195,6 @@ public class DoilyDrawingArea extends JPanel{
         int x = e.getX() - getWidth() / 2; //Adjusting x and y for 0,0 to be the center of the panel
         int y = e.getY() - getHeight() / 2;
         line.addPoint(new Point(x,y));
-        /*
-        if (sectors % 2 == 0) { //Reflect x and y if even number of sectors, technically not needed if we're reflecting but we have to account for when it is not being reflected
-            line.addPoint(new Point(x, y));
-        } else {
-            line.addPoint(new Point(x, y));
-        }
-        */
         repaint();
     }
 
@@ -199,8 +212,8 @@ public class DoilyDrawingArea extends JPanel{
         //Drawing the sectors by drawing a line from the center to the bottom edge and then rotating by 360 divided by the number of sectors to get the angle to rotate by
         if (showSectorLines && sectors > 1) {
             for (int i = 0; i < sectors; i++) {
-                g2d.drawLine(0, 0, 0, -400);
-                g2d.rotate(Math.toRadians(360.0 / sectors));
+                g2d.drawLine(0, 0, 0, -400); //draw a line to the edge of the screen (this won't draw all the way to edge but a reasonable amount
+                g2d.rotate(Math.toRadians(360.0 / sectors)); //Divivde 360 by the number of angles to rotate the line
             }
         }
 
