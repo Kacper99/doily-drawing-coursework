@@ -1,6 +1,12 @@
+/**
+ * @author Kacper Martela
+ */
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The frame to hold the whole user interface
+ */
 public class DDFrame extends JFrame {
 
     public DDFrame(String title) {

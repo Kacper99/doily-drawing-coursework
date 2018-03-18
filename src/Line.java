@@ -1,7 +1,14 @@
+/**
+ * @author Kacper Martela
+ */
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Stores the data for a single line that the user has drawn
+ */
 public class Line {
 
     private ArrayList<Point> points;
@@ -66,7 +73,6 @@ public class Line {
             Point checkPoint = pointsIterator.next();
             for (Point angledPoint: allPoints) { //Compare the point to the mouse click in all sectors
                 Double distance = Math.sqrt(Math.pow(checkPoint.getX()-angledPoint.getX(),2) + Math.pow(checkPoint.getY()-angledPoint.getY(), 2)); //Calculate the distance to the point
-                System.out.println("Distance " + distance);
                 if (distance <= brushSize) { //Check if the distance is less than or equal to the brush size and if it is then remove the point
                     pointsIterator.remove();
                 }

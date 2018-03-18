@@ -1,3 +1,6 @@
+/**
+ * @author Kacper Martela
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -6,6 +9,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Gallery for images.
+ */
 public class Gallery extends JPanel {
 
 

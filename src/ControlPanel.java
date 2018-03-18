@@ -1,8 +1,11 @@
+/**
+ * @author Kacper Martela
+ */
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * This class creates the control panel with all buttons and
+ * This class creates the control panel with all buttons, sliders, and checkboxes
  */
 public class ControlPanel extends JPanel {
 
@@ -22,7 +25,7 @@ public class ControlPanel extends JPanel {
 
         //Pen size slider and text
         JPanel penSizeHolder = new JPanel(new FlowLayout());
-        JLabel penSizeText = new JLabel("Size: 5");
+        JLabel penSizeText = new JLabel("Size: 10");
 
         JSlider penSizeSlider = new JSlider(1,20);
         penSizeSlider.addChangeListener(e -> { //When the user moves the slider, I also change the text next to it to display the new value

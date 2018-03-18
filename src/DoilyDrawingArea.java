@@ -1,3 +1,6 @@
+/**
+ * @author Kacper Martela
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -8,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
+/**
+ * This the JPanel which the user will draw on. Includes the drawing of sectors
+ */
 public class DoilyDrawingArea extends JPanel{
 
     private boolean showSectorLines = true;
@@ -91,7 +97,7 @@ public class DoilyDrawingArea extends JPanel{
     }
 
     /**
-     * Adding all the mouse and mouse motion listeners within the constructor
+     * Create mouse listeners within the drawing area to recognise clicks and drags.
      */
     public DoilyDrawingArea() {
         super();
@@ -108,7 +114,6 @@ public class DoilyDrawingArea extends JPanel{
                     addPoint(e);
                 }
                 redoStack.clear();
-                System.out.println("mouse pressed");
             }
 
             //When the mouse is released add the line you just drew to the line array list and the delete that line from the line variable and make a new one
@@ -116,7 +121,6 @@ public class DoilyDrawingArea extends JPanel{
             public void mouseReleased(MouseEvent e) {
                 lines.add(line);
                 line = new Line(DoilyDrawingArea.this);
-                System.out.println("Mouse released");
             }
         });
 
@@ -128,7 +132,6 @@ public class DoilyDrawingArea extends JPanel{
                 } else {
                     addPoint(e);
                 }
-                System.out.println("Mouse dragged");
             }
 
             public void mouseMoved(MouseEvent e) { } //Method not needed
