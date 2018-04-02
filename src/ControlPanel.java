@@ -1,8 +1,11 @@
+/**
+ * @author Kacper Martela
+ */
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * This class creates the control panel with all buttons and
+ * This class creates the control panel with all buttons, sliders, and checkboxes
  */
 public class ControlPanel extends JPanel {
 
@@ -18,15 +21,15 @@ public class ControlPanel extends JPanel {
 
         //Clear display button
         JButton clearDisplayButton = new JButton("Clear display");
-        clearDisplayButton.addActionListener(e -> da.clearDisplay());
+        clearDisplayButton.addActionListener(e -> da.clearDisplay()); //Call the clear display function within the doily jpanel
 
         //Pen size slider and text
         JPanel penSizeHolder = new JPanel(new FlowLayout());
-        JLabel penSizeText = new JLabel("Size: 5");
+        JLabel penSizeText = new JLabel("Size: 10");
 
-        JSlider penSizeSlider = new JSlider(1,10);
+        JSlider penSizeSlider = new JSlider(1,20);
         penSizeSlider.addChangeListener(e -> { //When the user moves the slider, I also change the text next to it to display the new value
-            penSizeText.setText("Size: " + penSizeSlider.getValue());
+            penSizeText.setText("Size: " + penSizeSlider.getValue()); //Change the text next to the pen size slider
             da.setBrushSize(penSizeSlider.getValue());
         });
 
@@ -36,7 +39,7 @@ public class ControlPanel extends JPanel {
         //Sector selector
         JPanel sectorSelectorHolder = new JPanel(new FlowLayout());
         JLabel sectorNumberText = new JLabel("Sectors: 32");
-        JSlider sectorSlider = new JSlider(1,64);
+        JSlider sectorSlider = new JSlider(1,64); //Maximum number of sectors the user can have is 64
 
         sectorSlider.addChangeListener(e -> {
             sectorNumberText.setText("Sectors: " + sectorSlider.getValue());
@@ -47,13 +50,15 @@ public class ControlPanel extends JPanel {
         sectorSelectorHolder.add(sectorSlider);
 
         //Sector lines, reflection, and eraser toggles;
-        JPanel toggles = new JPanel(new FlowLayout());
+        JPanel toggles = new JPanel(new FlowLayout()); //Creating a flow layout for the toggles to be stored in
         JCheckBox sectorLinesCB = new JCheckBox("Show sector lines", true);
         JCheckBox reflectDrawnPointsCB = new JCheckBox("Reflect drawn points", true);
-        JCheckBox eraserCB = new JCheckBox("Eraser");
+        JCheckBox eraserCB = new JCheckBox("Eraser", false);
 
+        //Attaching change listeners to all the checkboxes.
         sectorLinesCB.addChangeListener(e -> da.setShowSectorLines(sectorLinesCB.isSelected()));
         reflectDrawnPointsCB.addChangeListener(e -> da.setReflectDrawnPoints(reflectDrawnPointsCB.isSelected()));
+        eraserCB.addChangeListener(e -> da.setPenAsEraser(eraserCB.isSelected()));
         toggles.add(sectorLinesCB);
         toggles.add(reflectDrawnPointsCB);
         toggles.add(eraserCB);
@@ -72,11 +77,13 @@ public class ControlPanel extends JPanel {
         //Colour chooser
         JButton colourChooserButton = new JButton("Choose colour");
 
+        //Open a colour chooser when the choose colour button is pressed
         colourChooserButton.addActionListener(e -> {
             Color newColour = JColorChooser.showDialog(this, "Choose Colour", da.getPenColour()); //Opens the colour chooser dialog and whatever colour is selected is the new brush colour
             da.setPenColour(newColour);
         });
 
+        //Add all elements
         this.add(penSizeHolder);
         this.add(sectorSelectorHolder);
         this.add(toggles);

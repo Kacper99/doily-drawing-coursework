@@ -1,3 +1,6 @@
+/**
+ * @author Kacper Martela
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -5,47 +8,74 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Stack;
 
+/**
+ * This the JPanel which the user will draw on. Includes the drawing of sectors
+ */
 public class DoilyDrawingArea extends JPanel{
 
     private boolean showSectorLines = true;
     private boolean reflectDrawnPoints = true;
+    private boolean penAsEraser = false;
     private int sectors = 32;
-    private int brushSize = 5;
+    private int brushSize = 10;
     private Color penColour = Color.WHITE;
     private Line line;
     private ArrayList<Line> lines = new ArrayList<>();
     private Stack<Line> redoStack = new Stack<>();
 
     //Getters and setters. For variables which change the line options, I also call the line setters.
+
+    /**
+     * @param showSectorLines Whether to show the sector lines or not
+     */
     public void setShowSectorLines(boolean showSectorLines) {
         this.showSectorLines = showSectorLines;
         repaint();
     }
 
+    /**
+     * @param sectors Number of sectors to set for the doily
+     */
     public void setSectors(int sectors) {
         this.sectors = sectors;
         repaint();
     }
 
+    /**
+     * @return The colour of the pen
+     */
     public Color getPenColour() {
         return penColour;
     }
 
+    /**
+     * @param colour The colour to set the brush to
+     */
     public void setPenColour(Color colour) {
         this.penColour = colour;
         line.setBrushColour(colour);
     }
 
+    /**
+     * @return The brush size
+     */
     public int getBrushSize() {
         return brushSize;
     }
 
+    /**
+     * @return Whether the points are reflected or not
+     */
     public boolean isReflectDrawnPoints() {
         return reflectDrawnPoints;
     }
 
+    /**
+     * @return Get the number of sectors
+     */
     public int getSectors() { return sectors;}
 
     public void setBrushSize(int brushSize) {
@@ -58,8 +88,16 @@ public class DoilyDrawingArea extends JPanel{
         line.setReflected(reflectDrawnPoints);
     }
 
+    public boolean isPenAsEraser() {
+        return penAsEraser;
+    }
+
+    public void setPenAsEraser(boolean penAsEraser) {
+        this.penAsEraser = penAsEraser;
+    }
+
     /**
-     * Adding all the mouse and mouse motion listeners within the constructor
+     * Create mouse listeners within the drawing area to recognise clicks and drags.
      */
     public DoilyDrawingArea() {
         super();
@@ -70,9 +108,12 @@ public class DoilyDrawingArea extends JPanel{
             //When the mouse is pressed invoke addPoint, also clear the redo stack as those redo's are not needed anymore
             @Override
             public void mousePressed(MouseEvent e) {
-                addPoint(e);
+                if (penAsEraser) { //If the user has selected the eraser then erase the point instead of adding a new one
+                    eraser(e);
+                } else {
+                    addPoint(e);
+                }
                 redoStack.clear();
-                System.out.println("mouse pressed");
             }
 
             //When the mouse is released add the line you just drew to the line array list and the delete that line from the line variable and make a new one
@@ -80,20 +121,20 @@ public class DoilyDrawingArea extends JPanel{
             public void mouseReleased(MouseEvent e) {
                 lines.add(line);
                 line = new Line(DoilyDrawingArea.this);
-                System.out.println("Mouse released");
             }
         });
 
         this.addMouseMotionListener(new MouseMotionListener() { //MouseDragged doesn't work in MouseAdapter so need to use in MouseMotionListener
             //Whenever the mouse is dragged, also add that point
             public void mouseDragged(MouseEvent e) {
-                addPoint(e);
-                System.out.println("Mouse dragged");
+                if (penAsEraser) {
+                    eraser(e);
+                } else {
+                    addPoint(e);
+                }
             }
 
-            public void mouseMoved(MouseEvent e) {
-
-            }
+            public void mouseMoved(MouseEvent e) { } //Method not needed
         });
     }
 
@@ -105,6 +146,19 @@ public class DoilyDrawingArea extends JPanel{
         repaint();
     }
 
+    /**
+     * Used to erase points from the doily. Iterates through every line and checks if the point is in any of those lines.
+     * @param e The MouseEvent used to get the co-ordinates
+     */
+    private void eraser(MouseEvent e) {
+        Iterator<Line> linesIterator = lines.iterator();
+        while (linesIterator.hasNext()) {
+            Line checkLine = linesIterator.next();
+            checkLine.removePoint(new Point(e.getX() - getWidth() / 2, e.getY() - getHeight() / 2)); //Pass in the point adjusted for the centre
+
+            repaint();
+        }
+    }
     /**
      * Removes the previous line and stores it in a stack of elements which have been undone, then repaints.
      */
@@ -131,8 +185,8 @@ public class DoilyDrawingArea extends JPanel{
      * @return Doily drawing as a buffered image
      */
     public BufferedImage getImage() {
-        BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
-        this.paint(image.getGraphics());
+        BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_3BYTE_BGR); //Create a new BufferedImage with height and width of the jPanel
+        this.paint(image.getGraphics()); //Draw the doily onto the buffered image
         return image;
     }
 
@@ -143,11 +197,7 @@ public class DoilyDrawingArea extends JPanel{
     private void addPoint(MouseEvent e) {
         int x = e.getX() - getWidth() / 2; //Adjusting x and y for 0,0 to be the center of the panel
         int y = e.getY() - getHeight() / 2;
-        if (sectors % 2 == 0) { //Reflect x and y if even number of sectors, technically not needed if we're reflecting but we have to account for when it is not being reflected
-            line.addPoint(new Point(-x, -y));
-        } else {
-            line.addPoint(new Point(x, y));
-        }
+        line.addPoint(new Point(x,y));
         repaint();
     }
 
@@ -165,8 +215,8 @@ public class DoilyDrawingArea extends JPanel{
         //Drawing the sectors by drawing a line from the center to the bottom edge and then rotating by 360 divided by the number of sectors to get the angle to rotate by
         if (showSectorLines && sectors > 1) {
             for (int i = 0; i < sectors; i++) {
-                g2d.drawLine(0, 0, 0, -400);
-                g2d.rotate(Math.toRadians(360.0 / sectors));
+                g2d.drawLine(0, 0, 0, -400); //draw a line to the edge of the screen (this won't draw all the way to edge but a reasonable amount
+                g2d.rotate(Math.toRadians(360.0 / sectors)); //Divivde 360 by the number of angles to rotate the line
             }
         }
 

@@ -1,14 +1,23 @@
+/**
+ * @author Kacper Martela
+ */
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The frame to hold the whole user interface
+ */
 public class DDFrame extends JFrame {
 
     public DDFrame(String title) {
         super(title);
-        this.setSize(1250, 880);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(1250, 880); //Set default size of the window
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //When the close button is pressed the program will end
     }
 
+    /**
+     * Initialises the window
+     */
     public void init() {
         JTabbedPane tabbedPane = new JTabbedPane(); //Create a tabbed pane so we can have a tab for gallery and drawing area
 

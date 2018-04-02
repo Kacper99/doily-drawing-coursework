@@ -1,3 +1,6 @@
+/**
+ * @author Kacper Martela
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -6,6 +9,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Gallery for images.
+ */
 public class Gallery extends JPanel {
 
 
@@ -44,7 +50,7 @@ public class Gallery extends JPanel {
             JPanel imagePanel = new JPanel() {
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g); //Creating a JPanel with the image painted onto it.
-                    g.drawImage(resizedImage,0,0,null);
+                    g.drawImage(resizedImage,0,0,null); //Drawing the image onto the JPanel
                 }
             };
 
